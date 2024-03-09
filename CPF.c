@@ -30,7 +30,7 @@ verificaNAORepetido (int cpf[])
 void
 OrigemCPF (int cpf[])
 {
-  char regioes[10][100] =		//matriz de caracteres determinando as 10 regiC5es e o nC:meros de caracteres mC!ximo(100)
+  char regioes[10][100] =		//matriz de caracteres determinando as 10 regiões e o números de caracteres máximo(100)
   {
 	"* 0 Rio Grande do Sul",
 	"* 1 Distrito Federal, GoiC!s, Mato Grosso, Mato Grosso do Sul e Tocantins",
@@ -54,19 +54,21 @@ main ()
   int m1[9] = { 10, 9, 8, 7, 6, 5, 4, 3, 2 };
   int m2[10] = { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 };
   int i, j = 0, tam;
-  char entrada[50];				//Define o mC!ximo de caracteres permitidos na variC!vel "entrada"
-  //Lembrete: O programa sabe que uma string chegou no seu C:ltimo caracter pois ele lC* todos os valores que sC#o diferentes de 0.
+  char entrada[50]; //Define o máximo de caracteres permitidos na variável "entrada"
+  //Lembrete: O programa sabe que uma string chegou no seu último caracter pois ele lê todos os valores que são diferentes de 0.
   //Ou seja, ao encontrar "0", acaba o programa.
+	
   printf ("Entre com os 11 digitos do CPF:");
-  fgets (entrada, 50, stdin);	//Scanf para strings, lembrar de usar "fgets" invC)s de "gets", pois gets nC#o possui um limitador de array
-  //stdin significa que o programa estC! pegando inputs do teclado
-  tam = strlen (entrada);		//AtribuC- o tamanho da string em "entrada" e guarda em "tam"
+  fgets (entrada, 50, stdin);	//Scanf para strings, lembrar de usar "fgets" invés de "gets", pois gets não possui um limitador de array
+  				//stdin significa que o programa está pegando inputs do teclado
+	
+  tam = strlen (entrada); //Atribuí o tamanho da string em "entrada" e guarda em "tam"
   for (i = 0; i < tam; i++)
 	{
-	  if (entrada[i] >= 48 && entrada[i] <= 57)
-		{						//Verifica se os valores apresentados correspondem com os nC:meros de 0 a 9 da tabela ASCII.
-		  cpf[j] = entrada[i] - 48;	//Pega o valor convertido pela "entrada" em ASCII e subtraC- 48 para dar o valor em decimal
-		  j++;					//passa para a prC3xima posiC'C#o de CPF
+	  if (entrada[i] >= 48 && entrada[i] <= 57) //Verifica se os valores apresentados correspondem com os números de 0 a 9 da tabela ASCII.
+		{
+		  cpf[j] = entrada[i] - 48; //Pega o valor convertido pela "entrada" em ASCII e subtraC- 48 para dar o valor em decimal
+		  j++; //passa para a próxima posição de CPF
 		}
 	}
 
@@ -74,7 +76,7 @@ main ()
 	  && calculaDigito (cpf, m2, 10) == cpf[10]
 	  && verificaNAORepetido (cpf) == false)
 	{
-	  printf ("\nCPF vC!lido.");
+	  printf ("\nCPF válido.");
 	  OrigemCPF (cpf);
 	}
   else
