@@ -2,6 +2,44 @@
 #include<stdbool.h>
 #include<string.h>
 
+int calculaDigito (int cpf[], int mult[], int N){
+  int i, soma = 0;
+  for (i = 0; i < N; i++)
+	{
+	  soma = soma + cpf[i] * mult[i];
+	}
+  int resto = ((soma * 10) % 11) % 10;
+  return resto;
+}
+
+bool verificaNAORepetido (int cpf[]) {
+  for (int i = 1; i < 11; i++)
+	{
+	  if (cpf[0] != cpf[i])
+		{
+		  return false;
+		}
+	}
+  return true;
+}
+
+void OrigemCPF (int cpf[]) {
+  char regioes[10][100] = //matriz de caracteres determinando as 10 regiões e o números de caracteres máximo(100)
+  {
+	"* 0 Rio Grande do Sul",
+	"* 1 Distrito Federal, Goiás, Mato Grosso, Mato Grosso do Sul e Tocantins",
+	"* 2 Amazonas, Pará. Roraima, Amapá, Acre e Rondônia",
+	"* 3 Ceará, Maranhão e Piauí",
+	"* 4 Paraíba, Pernambuco, Alagoas e Rio Grande do Norte",
+	"* 5 Bahia e Sergipe",
+	"* 6 Minas Gerais",
+	"* 7 Rio de Janeiro e Espírito Santo",
+	"* 8 São Paulo",
+	"* 9 Paraná e Santa Catarina",
+  };
+  printf ("\n%s", regioes[cpf[8]]);
+}
+
 int main () {
   int cpf[11];
   int m1[9] = { 10, 9, 8, 7, 6, 5, 4, 3, 2 };
@@ -30,43 +68,4 @@ int main () {
   else
 	printf ("\nErro no CPF");
   return 0;
-}
-
-int calculaDigito (int cpf[], int mult[], int N){
-  int i, soma = 0;
-  for (i = 0; i < N; i++)
-	{
-	  soma = soma + cpf[i] * mult[i];
-	}
-  int resto = ((soma * 10) % 11) % 10;
-  return resto;
-}
-
-bool verificaNAORepetido (int cpf[]) {
-  for (int i = 1; i < 11; i++)
-	{
-	  if (cpf[0] != cpf[i])
-		{
-		  return false;
-		}
-	}
-  return true;
-}
-
-void
-OrigemCPF (int cpf[]) {
-  char regioes[10][100] = //matriz de caracteres determinando as 10 regiões e o números de caracteres máximo(100)
-  {
-	"* 0 Rio Grande do Sul",
-	"* 1 Distrito Federal, Goiás, Mato Grosso, Mato Grosso do Sul e Tocantins",
-	"* 2 Amazonas, Pará. Roraima, Amapá, Acre e Rondônia",
-	"* 3 Ceará, Maranhão e Piauí",
-	"* 4 Paraíba, Pernambuco, Alagoas e Rio Grande do Norte",
-	"* 5 Bahia e Sergipe",
-	"* 6 Minas Gerais",
-	"* 7 Rio de Janeiro e Espírito Santo",
-	"* 8 São Paulo",
-	"* 9 Paraná e Santa Catarina",
-  };
-  printf ("\n%s", regioes[cpf[8]]);
 }
