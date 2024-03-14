@@ -2,12 +2,23 @@
 #include<stdbool.h>
 #include<string.h>
 
-int calculaDigito(int cpf[], int mult[], int N)
-{   int i, soma=0;
-	for(i=0; i<N; i++){
-	    soma = soma + cpf[i]*mult[i];
-	}
-	int resto = ((soma*10) % 11)%10;
+int calculaDigito(int cpf[], int mult[], int N, int menu){   
+	int i, resto, soma=0;
+
+		for(i=0; i<N; i++){
+	    	soma = soma + cpf[i]*mult[i];
+		}
+		if(menu == 1){
+			resto = ((soma*10) % 11)%10;
+		} else {
+			resto = soma % 11;
+			if(resto < 2){
+				resto = 0;
+			} else {
+				resto = 11 - resto;
+			}
+		}
+
 	return resto;
 }
 
@@ -39,6 +50,7 @@ void OrigemCPF(int cpf[]){
 
 int main() {
     
+	int cnpj[14];
     int cpf[11];
 	int m1[9]={10,9,8,7,6,5,4,3,2};
 	int m2[10]={11,10,9,8,7,6,5,4,3,2};
@@ -48,11 +60,11 @@ int main() {
 	//Ou seja, ao encontrar "0", acaba o programa.
 	printf("Informe a operação que deseja realizar: \n1-CPF\n2-CNPJ\nResposta: ");
 	scanf("%i", &menu);
-	fflush(stdin); //limpa os inputs de scanf
+	fflush(stdin); //limpa os inputs de scanf (esse comando não funciona no Online GDB)
 
 	switch(menu){
 		case 1:
-			printf("Entre com os 11 digitos do CPF:");
+			printf("Entre com os 11 digitos do CPF: ");
 			fgets(entrada, 50, stdin); //Scanf para strings, lembrar de usar "fgets" invés de "gets", pois gets não possui um limitador de array
 			//stdin significa que o programa está pegando inputs do teclado
 			tam = strlen(entrada); //Atribuí o tamanho da string em "entrada" e guarda em "tam"
@@ -63,18 +75,38 @@ int main() {
 				}
 			}
 			
-			if(calculaDigito(cpf, m1, 9) == cpf[9] && calculaDigito(cpf, m2, 10) == cpf[10] && verificaNAORepetido(cpf) == false){
+			if(calculaDigito(cpf, m1, 9, 1) == cpf[9] && calculaDigito(cpf, m2, 10, 1) == cpf[10] && verificaNAORepetido(cpf) == false){
 				printf("\nCPF válido.");
 				OrigemCPF(cpf);
 			}
 			else printf("\nErro no CPF");
-			return 0;
+			break;
 
 		case 2:
+			int m3[12] = {5,4,3,2,9,8,7,6,5,4,3,2};
+			int m4[13] = {6,5,4,3,2,9,8,7,6,5,4,3,2};
+			int soma; 
+			printf("Informe o CNPJ: ");
+			fgets(entrada, 50, stdin);
+			tam = strlen(entrada);
+			for (i=0; i<tam; i++){
+				if(entrada[i]>=48 && entrada[i] <=57) {
+					cnpj[j] = entrada[i] - 48;
+					j++;
+				}
+			}
+			
+			if(calculaDigito(cnpj, m3, 12, 2) == cnpj[12] && calculaDigito(cnpj, m4, 13, 2) == cnpj[13] && cnpj){
+				printf("CNPJ válido");
+			} else {
+				printf("CNPJ inválido");
+			}
+			break;
+
 		default:
 			break;	
 	}
-	
+	return 0;
 }
 
 
