@@ -80,12 +80,11 @@ int main() {
 				OrigemCPF(cpf);
 			}
 			else printf("\nErro no CPF");
-			break;
+			return 0;
 
 		case 2:
 			int m3[12] = {5,4,3,2,9,8,7,6,5,4,3,2};
 			int m4[13] = {6,5,4,3,2,9,8,7,6,5,4,3,2};
-			int soma; 
 			printf("Informe o CNPJ: ");
 			fgets(entrada, 50, stdin);
 			tam = strlen(entrada);
@@ -96,17 +95,15 @@ int main() {
 				}
 			}
 			
-			if(calculaDigito(cnpj, m3, 12, 2) == cnpj[12] && calculaDigito(cnpj, m4, 13, 2) == cnpj[13] && cnpj){
+			if(calculaDigito(cnpj, m3, 12, 2) == cnpj[12] && calculaDigito(cnpj, m4, 13, 2) == cnpj[13] && j <= 14){
 				printf("CNPJ válido");
 			} else {
 				printf("CNPJ inválido");
 			}
-			break;
+			return 0;
 
 		default:
 			break;	
 	}
 	return 0;
 }
-
-
