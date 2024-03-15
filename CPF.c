@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdbool.h>
 #include<string.h>
+#include<stdlib.h>
 
 int calculaDigito(int cpf[], int mult[], int N, int menu){   
 	int i, resto, soma=0;
@@ -18,7 +19,6 @@ int calculaDigito(int cpf[], int mult[], int N, int menu){
 				resto = 11 - resto;
 			}
 		}
-
 	return resto;
 }
 
@@ -48,33 +48,48 @@ void OrigemCPF(int cpf[]){
     printf("\n%s", regioes[ cpf[8] ]);
 }
 
-int main() {
-    
-	int cnpj[14];
-    int cpf[11];
-	int m1[9]={10,9,8,7,6,5,4,3,2};
-	int m2[10]={11,10,9,8,7,6,5,4,3,2};
-	int i, j=0, tam, menu;
+int leitor(int cpf[], int menu){
+	int leitura, tam, i, j=0;
 	char entrada[50]; //Define o máximo de caracteres permitidos na variável "entrada"
 	//Lembrete: O programa sabe que uma string chegou no seu último caracter pois ele lê todos os valores que são diferentes de 0.
 	//Ou seja, ao encontrar "0", acaba o programa.
+	if(menu == 1){
+		printf("Informe os 11 dígitos do CPF: ");
+	} else {
+		printf("Informe o CNPJ: ");
+	} 
+		fgets(entrada, 50, stdin); //Scanf para strings, lembrar de usar "fgets" invés de "gets", pois gets não possui um limitador de array
+		//stdin significa que o programa está pegando inputs do teclado
+		tam = strlen(entrada); //Atribuí o tamanho da string em "entrada" e guarda em "tam"
+		for(i=0;i<tam;i++){
+			if(entrada[i] >= 48 && entrada[i] <= 57){ //Verifica se os valores apresentados correspondem com os números de 0 a 9 da tabela ASCII.
+				if(j > 13 && menu == 2 || j > 10 && menu == 1){
+					printf("\nDígitos excedentes\nFim da operação");
+					exit(0);
+				}
+				cpf[j] = entrada[i]-48; //Pega o valor convertido pela "entrada" em ASCII e subtraí 48 para dar o valor em decimal
+				j++; //passa para a próxima posição de CPF/CNPJ
+			}
+		}
+	return leitura;
+}
+
+int main() {
+    
+	int cnpj[14];
+    int cpf[11], m=10;
+	int m1[9]={10,9,8,7,6,5,4,3,2};
+	int m2[10]={11,10,9,8,7,6,5,4,3,2};
+	int menu;
+	
 	printf("Informe a operação que deseja realizar: \n1-CPF\n2-CNPJ\nResposta: ");
 	scanf("%i", &menu);
 	fflush(stdin); //limpa os inputs de scanf (esse comando não funciona no Online GDB)
 
 	switch(menu){
 		case 1:
-			printf("Entre com os 11 digitos do CPF: ");
-			fgets(entrada, 50, stdin); //Scanf para strings, lembrar de usar "fgets" invés de "gets", pois gets não possui um limitador de array
-			//stdin significa que o programa está pegando inputs do teclado
-			tam = strlen(entrada); //Atribuí o tamanho da string em "entrada" e guarda em "tam"
-			for(i=0;i<tam;i++){
-				if(entrada[i] >= 48 && entrada[i] <= 57){ //Verifica se os valores apresentados correspondem com os números de 0 a 9 da tabela ASCII.
-					cpf[j] = entrada[i]-48; //Pega o valor convertido pela "entrada" em ASCII e subtraí 48 para dar o valor em decimal
-					j++; //passa para a próxima posição de CPF
-				}
-			}
-			
+			leitor(cpf, 1);
+
 			if(calculaDigito(cpf, m1, 9, 1) == cpf[9] && calculaDigito(cpf, m2, 10, 1) == cpf[10] && verificaNAORepetido(cpf) == false){
 				printf("\nCPF válido.");
 				OrigemCPF(cpf);
@@ -85,17 +100,9 @@ int main() {
 		case 2:
 			int m3[12] = {5,4,3,2,9,8,7,6,5,4,3,2};
 			int m4[13] = {6,5,4,3,2,9,8,7,6,5,4,3,2};
-			printf("Informe o CNPJ: ");
-			fgets(entrada, 50, stdin);
-			tam = strlen(entrada);
-			for (i=0; i<tam; i++){
-				if(entrada[i]>=48 && entrada[i] <=57) {
-					cnpj[j] = entrada[i] - 48;
-					j++;
-				}
-			}
-			
-			if(calculaDigito(cnpj, m3, 12, 2) == cnpj[12] && calculaDigito(cnpj, m4, 13, 2) == cnpj[13] && j <= 14){
+
+			leitor(cnpj, 2);
+			if(calculaDigito(cnpj, m3, 12, 2) == cnpj[12] && calculaDigito(cnpj, m4, 13, 2) == cnpj[13]){
 				printf("CNPJ válido");
 			} else {
 				printf("CNPJ inválido");
@@ -104,6 +111,6 @@ int main() {
 
 		default:
 			break;	
-	}
+	}	
 	return 0;
 }
